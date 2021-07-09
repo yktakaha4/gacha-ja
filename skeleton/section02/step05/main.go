@@ -26,7 +26,7 @@ func main() {
 	// nameフィールドが"スライム"の変数slimeを定義する
 	slime := card{
 		rarity: rarityN,
-		name: "スライム",
+		name:   "スライム",
 	}
 
 	fmt.Println(slime)
