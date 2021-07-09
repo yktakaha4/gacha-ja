@@ -29,8 +29,8 @@ func main() {
 		fmt.Println("もう一度入力してください")
 	}
 
-	// TODO: キーがstring型で値がint型のマップを定義する
-
+	// キーがstring型で値がint型のマップを定義する
+	result := make(map[string]int)
 
 	for i := 0; i < n; i++ {
 
