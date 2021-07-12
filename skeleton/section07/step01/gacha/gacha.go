@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	url2 "net/url"
 )
 
 const baseURL = "https://gohandson-gacha.uc.r.appspot.com/"
@@ -64,22 +65,32 @@ func (p *Play) Draw() bool {
 
 func (p *Play) draw() (*Card, error) {
 	q := "スライム:80,オーク:15,ドラゴン:4,イフリート:1"
-	// TODO: GETメソッドのリクエストを生成する
+	// GETメソッドのリクエストを生成する
 	// URLはbaseURLの末尾に?q=と変数qの文字列を付加したもの
 	// リクエストボディはnil
+	url, err := url2.Parse(baseURL)
+	if err != nil {
+		return nil, err
+	}
 
+	query := url.Query()
+	query.Set("q", q)
+	url.RawQuery = query.Encode()
+
+	request, err := http.NewRequest("GET", url.String(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("リクエスト作成:%w", err)
 	}
 
-	// TODO: デフォルトクライアントを使ってリクエストを送る
+	// デフォルトクライアントを使ってリクエストを送る
 	// レスポンスは変数respで受け取る
-
+	resp, err := http.DefaultClient.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("APIリクエスト:%w", err)
 	}
 
-	// TODO: ボディをクローズする
+	// ボディをクローズする
+	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
