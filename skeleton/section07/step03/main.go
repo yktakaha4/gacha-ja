@@ -41,14 +41,15 @@ func run() error {
 	play := gacha.NewPlay(p)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if /* TODO: テンプレートに結果の一覧を埋め込んでレスポンスにする */; err != nil {
+		if err := tmpl.Execute(w, play.Results()); /* テンプレートに結果の一覧を埋め込んでレスポンスにする */ err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
 
 	http.HandleFunc("/draw", func(w http.ResponseWriter, r *http.Request) {
-		// TODO: r.FormValueメソッドを使ってフォームで入力したガチャの回数を取得
+		// r.FormValueメソッドを使ってフォームで入力したガチャの回数を取得
 		// ガチャを行う回数は"num"で取得できる
+		num, err := strconv.Atoi(r.FormValue("num"))
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -66,7 +67,8 @@ func run() error {
 			return
 		}
 
-		// TODO: "/"（トップ）にhttp.StatusFoundのステータスでリダイレクトする
+		// "/"（トップ）にhttp.StatusFoundのステータスでリダイレクトする
+		http.Redirect(w, r, "/", http.StatusFound)
 	})
 
 	return http.ListenAndServe(":8080", nil)
