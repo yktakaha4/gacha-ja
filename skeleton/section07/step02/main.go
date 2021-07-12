@@ -24,8 +24,10 @@ func run() error {
 
 	http.HandleFunc("/draw", func(w http.ResponseWriter, r *http.Request) {
 		if play.Draw() {
-			// TODO: レスポンスとして最後の結果を出力する
+			// レスポンスとして最後の結果を出力する
 			// 最後の結果はplay.Resultメソッドから取得できる
+			card := play.Result()
+			fmt.Fprintln(w, card)
 		}
 
 		if err := play.Err(); err != nil {

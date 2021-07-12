@@ -11,7 +11,7 @@ func NewPlayer(tickets, coin int) *Player {
 	return &Player{tickets: tickets, coin: coin}
 }
 
-// プレイヤーが行えるガチャの回数
+// DrawableNum プレイヤーが行えるガチャの回数
 func (p *Player) DrawableNum() int {
 	// ガチャ券は1枚で1回、コインは10枚で1回ガチャが行える
 	return p.tickets + p.coin/10
