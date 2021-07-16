@@ -14,8 +14,8 @@ func (r Rarity) String() string {
 }
 
 type Card struct {
-	// TODO: データストアでrarityという名前になるようにタグを設定する
-	Rarity Rarity
+	// データストアでrarityという名前になるようにタグを設定する
+	Rarity Rarity `datastore:"rarity"`
 	Name   string `datastore:"name"`
 }
 

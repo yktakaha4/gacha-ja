@@ -42,7 +42,7 @@ func main() {
 func run() error {
 
 	ctx := context.Background()
-	client, err := datastore.NewClient(ctx, "gohandson-gacha")
+	client, err := datastore.NewClient(ctx, "yktakaha4")
 	if err != nil {
 		return fmt.Errorf("Datastoreのクライアント作成:%w", err)
 	}
@@ -100,9 +100,10 @@ func run() error {
 
 func saveResult(client *datastore.Client, card *gacha.Card) error {
 	ctx := context.Background()
-	// TODO: Kind名を自分のGitHubアカウントを付加したものに変える
-	key := datastore.IncompleteKey("YourGitHubAccount-Results", nil)
-	// TODO: client.Putメソッドで追加する
+	// Kind名を自分のGitHubアカウントを付加したものに変える
+	key := datastore.IncompleteKey("yktakaha4-Results", nil)
+	// client.Putメソッドで追加する
+	_, err := client.Put(ctx, key, card)
 
 	if err != nil {
 		return fmt.Errorf("結果の保存:%w", err)
@@ -112,12 +113,13 @@ func saveResult(client *datastore.Client, card *gacha.Card) error {
 
 func getResults(client *datastore.Client, limit int) ([]*gacha.Card, error) {
 	results := make([]*gacha.Card, 0, limit)
-	// TODO: Kind名を自分のGitHubアカウントを付加したものに変える
-	q := datastore.NewQuery("YourGitHubAccount-Results") // クエリの作成
+	// Kind名を自分のGitHubアカウントを付加したものに変える
+	q := datastore.NewQuery("yktakaha4-Results") // クエリの作成
 	q = q.Limit(cap(results))          // リミット
 	for it := client.Run(context.Background(), q); ; {
 		var card gacha.Card
-		// TODO: cardのポインタをit.Nextメソッドに渡してデータを読み込む
+		// cardのポインタをit.Nextメソッドに渡してデータを読み込む
+		_, err := it.Next(&card)
 
 		if err == iterator.Done {
 			break
@@ -125,7 +127,8 @@ func getResults(client *datastore.Client, limit int) ([]*gacha.Card, error) {
 		if err != nil {
 			return nil, fmt.Errorf("結果の取得:%w", err)
 		}
-		// TODO: 読み込んだデータをresultsに追加する
+		// 読み込んだデータをresultsに追加する
+		results = append(results, &card)
 
 	}
 
