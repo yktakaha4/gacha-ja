@@ -42,7 +42,7 @@ func main() {
 func run() error {
 
 	ctx := context.Background()
-	client, err := datastore.NewClient(ctx, "gohandson-gacha")
+	client, err := datastore.NewClient(ctx, "yktakaha4")
 	if err != nil {
 		return fmt.Errorf("Datastoreのクライアント作成:%w", err)
 	}
@@ -100,7 +100,7 @@ func run() error {
 
 func saveResult(client *datastore.Client, card *gacha.Card) error {
 	ctx := context.Background()
-	key := datastore.IncompleteKey("YourGitHubAccount-Results", nil)
+	key := datastore.IncompleteKey("yktakaha4-Results", nil)
 	_, err := client.Put(ctx, key, card)
 	if err != nil {
 		return fmt.Errorf("結果の保存:%w", err)
@@ -110,7 +110,7 @@ func saveResult(client *datastore.Client, card *gacha.Card) error {
 
 func getResults(client *datastore.Client, limit int) ([]*gacha.Card, error) {
 	results := make([]*gacha.Card, 0, limit)
-	q := datastore.NewQuery("YourGitHubAccount-Results") // クエリの作成
+	q := datastore.NewQuery("yktakaha4-Results") // クエリの作成
 	q = q.Limit(cap(results))          // リミット
 	for it := client.Run(context.Background(), q); ; {
 		var card gacha.Card

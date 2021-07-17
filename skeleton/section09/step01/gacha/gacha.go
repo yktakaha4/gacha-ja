@@ -15,8 +15,15 @@ func NewPlay(p *Player) *Play {
 	}
 }
 
-// TODO: Clientフィールドがnilでない場合はClientフィールドの値
+// Clientフィールドがnilでない場合はClientフィールドの値
 // そうでない場合はdefaultClientを返す*Play型のメソッドclient
+func (p *Play) client() Client {
+	if p.Client != nil {
+		return p.Client
+	} else {
+		return defaultClient
+	}
+}
 
 func (p *Play) Results() []*Card {
 	return p.results

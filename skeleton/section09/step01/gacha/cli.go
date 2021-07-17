@@ -8,8 +8,9 @@ import (
 )
 
 type Client interface {
-	// TODO: 名前がDrawで引数がDistribution、
+	// Draw 名前がDrawで引数がDistribution、
 	// 戻り値が*Cardとerrorのメソッド
+	Draw(distribution Distribution) (*Card, error)
 }
 
 type Distribution map[Rarity]*Group
@@ -20,14 +21,15 @@ type Group struct {
 }
 
 var defaultClient = &client{
-	baseURL: "https://gohandson-gacha.uc.r.appspot.com/",
+	baseURL: "https://yktakaha4.an.r.appspot.com/",
 }
 
 type client struct {
 	baseURL string
 }
 
-// TODO: *client型がClientインタフェースを実装しているかチェックする
+// *client型がClientインタフェースを実装しているかチェックする
+var _ Client = defaultClient
 
 func (cli *client) Draw(dist Distribution) (*Card, error) {
 	rarity, err := cli.drawRarity(dist)
