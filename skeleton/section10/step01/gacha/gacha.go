@@ -47,10 +47,10 @@ func (p *Play) Err() error {
 }
 
 func (p *Play) Draw(ctx context.Context) bool {
-	// TODO: "Play.Draw"という名前でリージョンを開始する
+	// "Play.Draw"という名前でリージョンを開始する
 	// trace.StartRegion関数を用いる
 	// 第1引数のコンテキストはctxを用いる
-
+	region := trace.StartRegion(ctx, "Play.Draw")
 	defer region.End()
 
 	if p.err != nil {

@@ -42,7 +42,7 @@ func main() {
 
 func run() (rerr error) {
 	ctx := context.Background()
-	client, err := datastore.NewClient(ctx, "gohandson-gacha")
+	client, err := datastore.NewClient(ctx, "yktakaha4")
 	if err != nil {
 		return fmt.Errorf("Datastoreのクライアント作成:%w", err)
 	}
@@ -82,10 +82,10 @@ func run() (rerr error) {
 		}
 		defer trace.Stop()
 
-		// TODO: "draw handler"という名前でタスクを生成する
+		// "draw handler"という名前でタスクを生成する
 		// trace.NewTask関数を用いる
 		// 第1引数のコンテキストはr.Contextメソッドから取得する
-
+		ctx, task := trace.NewTask(r.Context(), "draw handler")
 		defer task.End()
 
 		num, err := strconv.Atoi(r.FormValue("num"))
@@ -125,7 +125,7 @@ func run() (rerr error) {
 func saveResult(ctx context.Context, client *datastore.Client, card *gacha.Card) error {
 	defer trace.StartRegion(ctx, "saveResult").End()
 
-	key := datastore.IncompleteKey("YourGitHubAccount-Results", nil)
+	key := datastore.IncompleteKey("yktakaha4-Results", nil)
 	_, err := client.Put(ctx, key, card)
 	if err != nil {
 		return fmt.Errorf("結果の保存:%w", err)
@@ -135,10 +135,11 @@ func saveResult(ctx context.Context, client *datastore.Client, card *gacha.Card)
 
 func getResults(ctx context.Context, client *datastore.Client, limit int) ([]*gacha.Card, error) {
 	region := trace.StartRegion(ctx, "getResults")
-	// TODO: region.Endメソッドをdefer文で呼び出す
+	// region.Endメソッドをdefer文で呼び出す
+	defer region.End()
 
 	results := make([]*gacha.Card, 0, limit)
-	q := datastore.NewQuery("YourGitHubAccount-Results") // クエリの作成
+	q := datastore.NewQuery("yktakaha4-Results") // クエリの作成
 	q = q.Limit(cap(results))                            // リミット
 	for it := client.Run(ctx, q); ; {
 		var card gacha.Card
