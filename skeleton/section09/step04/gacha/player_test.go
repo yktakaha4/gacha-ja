@@ -53,7 +53,7 @@ func TestPlayer_draw(t *testing.T) {
 			t.Parallel()
 			p := gacha.NewPlayer(tt.tickets, tt.coin)
 
-			// TODO: テスト用にエクスポートされたdrawメソッドを呼び出す
+			// テスト用にエクスポートされたdrawメソッドを呼び出す
 			// n回ガチャを行う
 			// 戻り値をerr変数に代入する
 			err := gacha.ExportPlayerDraw(p, tt.n)

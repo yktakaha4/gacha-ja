@@ -1,3 +1,4 @@
-// TODO: gachaパッケージにする
+// gachaパッケージにする
+package gacha
 
-var ExportPlayerDraw = /* (*Player).drawメソッドのメソッド式を代入 */
+var ExportPlayerDraw =  (*Player).draw /* (*Player).drawメソッドのメソッド式を代入 */
